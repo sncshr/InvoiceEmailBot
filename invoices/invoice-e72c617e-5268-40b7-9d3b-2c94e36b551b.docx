@@ -1,0 +1,20 @@
+This is a DOCX template placeholder. In production, this would be an actual DOCX file created from the user's template with placeholders like:
+
+{{invoiceNumber}}
+{{dated}}
+{{clientName}}
+{{atSite}}
+{{gstin}}
+{{state}}
+{{monthYear}}
+{{serviceDescription}}
+{{rate}}
+{{cgst}}
+{{sgst}}
+{{igst}}
+{{totalTax}}
+{{totalAmountAfterTax}}
+{{amountInWords}}
+
+Company: INDOESSARR ENGINEERS & ASSOCIATES
+GSTIN: 02ACFPS5258K2ZC

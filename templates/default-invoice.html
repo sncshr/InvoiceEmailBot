@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice {{invoiceNumber}}</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 40px;
+            color: #333;
+            line-height: 1.6;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px solid #2563eb;
+            padding-bottom: 20px;
+        }
+        .company-name {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1e40af;
+            margin-bottom: 10px;
+        }
+        .invoice-title {
+            font-size: 24px;
+            color: #374151;
+            margin: 20px 0 10px 0;
+        }
+        .invoice-number {
+            font-size: 18px;
+            color: #6b7280;
+        }
+        .details-section {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+        }
+        .bill-to, .invoice-details {
+            width: 45%;
+        }
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 5px;
+        }
+        .amount-section {
+            background-color: #f8fafc;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        .amount-label {
+            font-size: 18px;
+            color: #374151;
+            margin-bottom: 10px;
+        }
+        .amount-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: #059669;
+        }
+        .terms-section {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9fafb;
+            border-left: 4px solid #3b82f6;
+        }
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 20px;
+        }
+        .watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 100px;
+            color: rgba(59, 130, 246, 0.05);
+            z-index: -1;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="watermark">INVOICE</div>
+    
+    <div class="header">
+        <div class="company-name">Your Business Name</div>
+        <div style="color: #6b7280; margin-top: 5px;">Professional Services</div>
+        <div class="invoice-title">INVOICE</div>
+        <div class="invoice-number">Invoice #{{invoiceNumber}}</div>
+    </div>
+
+    <div class="details-section">
+        <div class="bill-to">
+            <div class="section-title">Bill To:</div>
+            <div><strong>{{clientName}}</strong></div>
+            <div>{{clientEmail}}</div>
+            <div style="white-space: pre-line; margin-top: 10px;">{{clientAddress}}</div>
+        </div>
+        
+        <div class="invoice-details">
+            <div class="section-title">Invoice Details:</div>
+            <div><strong>Issue Date:</strong> {{issueDate}}</div>
+            <div><strong>Due Date:</strong> {{dueDate}}</div>
+            <div><strong>Billing Period:</strong> {{period}}</div>
+            <div><strong>Payment Terms:</strong> Net 30</div>
+        </div>
+    </div>
+
+    <div class="amount-section">
+        <div class="amount-label">Total Amount Due</div>
+        <div class="amount-value">{{currency}} {{amount}}</div>
+    </div>
+
+    {{#if contractTerms}}
+    <div class="terms-section">
+        <div class="section-title">Contract Terms & Notes:</div>
+        <div style="white-space: pre-line;">{{contractTerms}}</div>
+    </div>
+    {{/if}}
+
+    <div class="footer">
+        <p>Thank you for your business!</p>
+        <p>Please remit payment within 30 days of the invoice date.</p>
+        <p>For questions regarding this invoice, please contact us at your-email@business.com</p>
+    </div>
+</body>
+</html>

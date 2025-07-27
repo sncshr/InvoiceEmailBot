@@ -1,0 +1,124 @@
+**Invoicer App Specification**
+
+**1. Overview**
+A web-based invoicing application that automates the generation, watermarking, and delivery of client invoices. The system will replace manual Word templates and scripts with a centralized database, template engine, PDF generator, and email scheduler.
+
+**2. Objectives**
+
+* Eliminate manual updates of 87 Word templates.
+* Guarantee correct templating and watermarking every time.
+* Automate monthly invoice generation, numbering, and emailing.
+* Provide visibility into invoice status and history.
+
+**3. Scope**
+
+* **In scope:** Client management, invoice data entry, PDF generation, watermarking, email delivery, scheduling, admin UI, logs/retry.
+* **Out of scope:** Payment processing, accounting ledger integration (optional future enhancement).
+
+**4. Functional Requirements**
+4.1. **Client Management**
+
+* Create, read, update, delete (CRUD) clients with contact info.
+* Store contract terms or pricing overrides.
+
+4.2. **Invoice Management**
+
+* Create new invoice records with period, issue date, due date, amount, status.
+* Auto-increment invoice numbers.
+* Preview invoice in the browser.
+
+4.3. **Template & PDF Generation**
+
+* Use a single DOCX template with placeholders.
+* Render invoice data into DOCX.
+* Convert DOCX to PDF using headless LibreOffice or native library.
+* Apply watermark to each PDF page.
+
+4.4. **Email Delivery**
+
+* Compose email based on customizable template.
+* Attach generated PDF.
+* Send via SMTP or transactional API.
+* Log delivery status and error details.
+
+4.5. **Scheduling & Automation**
+
+* Schedule monthly batch run on configurable day (default `1`).
+* Option to trigger on-demand run via UI or CLI.
+* Retry logic for failures.
+
+4.6. **Admin Dashboard**
+
+* Display upcoming and sent invoices.
+* Filter by client, status, date range.
+* One-click retry for failed items.
+
+**5. Non-Functional Requirements**
+
+* **Reliability:** ≥99.5% uptime for generation and delivery.
+* **Scalability:** Handle up to 500 clients without performance degradation.
+* **Security:** Protect client data in transit (TLS) and at rest (encrypted DB backups).
+* **Maintainability:** Use Docker for consistent environments; templates in Git.
+* **Usability:** Intuitive UI for non-technical users.
+
+**6. Data Model**
+
+* **Client**(`id`, `name`, `email`, `address`, `contract_terms`)
+* **Invoice**(`id`, `client_id`, `period`, `issue_date`, `due_date`, `amount`, `status`, `created_at`, `updated_at`)
+* **Template**(`id`, `file_path`, `version`, `created_at`)
+* **LogEntry**(`id`, `invoice_id`, `action`, `timestamp`, `status`, `details`)
+
+**7. Architecture & Components**
+
+* **Frontend**: React or server-rendered HTML (Flask/Jinja).
+* **Backend**: Flask + SQLAlchemy (or Django ORM).
+* **Database**: PostgreSQL (or SQLite for MVP).
+* **PDF Service**: Headless LibreOffice + PyPDF2.
+* **Email Service**: Send through your existing Gmail account via SMTP (using OAuth2 or an App Password) to preserve your sender address, with option to fall back to a transactional API if volumes grow.
+* **Scheduler**: Celery with Redis or cron + RQ.
+* **Containerization**: Docker & docker-compose.
+
+**8. API Endpoints**
+
+* `GET /api/clients` – List clients
+* `POST /api/clients` – Add client
+* `GET /api/invoices` – List invoices
+* `POST /api/invoices` – Generate & send invoice
+* `POST /api/invoices/batch` – Run monthly batch
+* `GET /api/logs` – Fetch logs
+
+**9. User Interfaces (Wireframes)**
+
+* **Dashboard**: Overview cards (Pending, Sent, Failed), recent activity list.
+* **Clients page**: Table of clients, Add/Edit modal.
+* **Invoices page**: Table with filters, Preview button, Send/Retry actions.
+* **Template management**: Upload new template, view versions.
+
+**10. User Stories**
+
+* **As an Admin**, I want to add/edit client details so that I can manage recipients.
+* **As an Admin**, I want to preview an invoice before sending.
+* **As an Admin**, I want invoices to be sent automatically on the 1st of every month.
+* **As an Admin**, I want to view delivery logs and retry failures.
+
+**11. Milestones & Timeline**
+
+| Phase                | Duration | Deliverables                                        |
+| -------------------- | -------- | --------------------------------------------------- |
+| Discovery & Setup    | 1 week   | Requirements sign-off, project skeleton, DB schema. |
+| Template Engine      | 1 week   | DOCX rendering + PDF conversion + watermark module. |
+| Email Integration    | 1 week   | SMTP/API integration + logging.                     |
+| UI & Dashboard       | 2 weeks  | React/Flask UI with CRUD, preview, batch trigger.   |
+| Scheduling & Jobs    | 1 week   | Celery/cron scheduling + retry logic.               |
+| Testing & QA         | 1 week   | Unit tests, end-to-end tests, performance checks.   |
+| Deployment & Handoff | 1 week   | Docker-compose, documentation, training materials.  |
+
+**12. Risks & Mitigations**
+
+* **PDF conversion failures:** automated retries, fallback convert tool.
+* **Email bounces/blocks:** monitor bounce rates, switch providers if needed.
+* **Template corruption:** version control + rollback capability.
+
+---
+
+This spec lays out the blueprint for your seamless invoicing solution. Next steps: review and adjust priorities, finalize tech choices, and begin implementation.

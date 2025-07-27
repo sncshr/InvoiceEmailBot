@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GST Tax Invoice {{invoiceNumber}}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
+        }
+        .header-left {
+            flex: 1;
+        }
+        .header-right {
+            text-align: center;
+            flex: 1;
+        }
+        .gstin {
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .tax-invoice {
+            font-weight: bold;
+            font-size: 16px;
+            text-decoration: underline;
+        }
+        .company-info {
+            margin: 10px 0;
+            text-align: center;
+        }
+        .company-name {
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .invoice-details {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            border: 1px solid #000;
+            padding: 10px;
+        }
+        .invoice-left {
+            flex: 1;
+        }
+        .invoice-right {
+            flex: 1;
+            text-align: right;
+        }
+        .client-details {
+            border: 1px solid #000;
+            padding: 10px;
+            margin: 20px 0;
+        }
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .items-table th,
+        .items-table td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: center;
+        }
+        .items-table th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+        }
+        .particulars {
+            text-align: left !important;
+        }
+        .tax-summary {
+            margin: 20px 0;
+            border: 1px solid #000;
+            padding: 15px;
+        }
+        .tax-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+        }
+        .amount-words {
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .footer {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        .footer-left {
+            flex: 1;
+            font-size: 10px;
+        }
+        .footer-right {
+            flex: 1;
+            text-align: right;
+        }
+        .signature {
+            margin-top: 40px;
+            text-align: center;
+        }
+        .bold {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            <div class="gstin">GSTIN: 02ACFPS5258K2ZC</div>
+        </div>
+        <div class="header-right">
+            <div class="tax-invoice">TAX INVOICE</div>
+            <div style="margin-top: 10px; font-size: 10px;">
+                Government of India/State From GST-25 see rule (7) of GST Act 2017
+            </div>
+        </div>
+    </div>
+
+    <!-- Company Information -->
+    <div class="company-info">
+        <div class="company-name">INDOESSARR ENGINEERS & ASSOCIATES</div>
+        <div>1ST floor Old LIC Building, Opp. M.C. Office</div>
+    </div>
+
+    <!-- Invoice Details -->
+    <div class="invoice-details">
+        <div class="invoice-left">
+            <div><span class="bold">Invoice No.</span> {{invoiceNumber}}</div>
+        </div>
+        <div class="invoice-right">
+            <div><span class="bold">Dated:</span> {{dated}}</div>
+        </div>
+    </div>
+
+    <!-- Client Details -->
+    <div class="client-details">
+        <div><span class="bold">To</span> {{clientName}}</div>
+        <br>
+        <div><span class="bold">At Site:</span> {{atSite}}</div>
+        <br>
+        <div style="display: flex; justify-content: space-between;">
+            <div><span class="bold">GSTIN:</span> {{gstin}}</div>
+            <div><span class="bold">STATE:</span> {{state}}</div>
+            <div><span class="bold">GR/Vehicle No:</span> N/A</div>
+        </div>
+    </div>
+
+    <!-- Items Table -->
+    <table class="items-table">
+        <thead>
+            <tr>
+                <th>Sr. No</th>
+                <th>PARTICULARS</th>
+                <th>HSN/SAC CODE</th>
+                <th>Qty</th>
+                <th>Rate</th>
+                <th>Value of Goods</th>
+                <th>5%</th>
+                <th>12%</th>
+                <th>18%</th>
+                <th>28%</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td class="particulars">
+                    {{serviceDescription}}<br>
+                    FOR THE MONTH OF {{monthYear}}
+                </td>
+                <td>{{hsnSacCode}}</td>
+                <td>1 Month</td>
+                <td>{{rate}}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Rs.{{rate}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="10" style="height: 40px;"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Tax Summary -->
+    <div class="tax-summary">
+        <div class="amount-words">
+            <span class="bold">Total Amount in Words (RS.)</span><br>
+            {{amountInWords}}
+        </div>
+        
+        <div style="float: right; text-align: right;">
+            <div class="tax-row">
+                <span>TOTAL AMOUNT BEFORE TAX</span>
+                <span>Rs. {{rate}}</span>
+            </div>
+            <div class="tax-row">
+                <span>CGST</span>
+                <span>{{cgst}}</span>
+            </div>
+            <div class="tax-row">
+                <span>SGST</span>
+                <span>{{sgst}}</span>
+            </div>
+            <div class="tax-row">
+                <span>IGST</span>
+                <span>{{igst}}</span>
+            </div>
+            <div class="tax-row">
+                <span class="bold">TOTAL AMOUNT OF TAX</span>
+                <span class="bold">Rs. {{totalTax}}</span>
+            </div>
+            <div class="tax-row" style="border-top: 1px solid #000; padding-top: 5px;">
+                <span class="bold">TOTAL AMOUNT AFTER TAX</span>
+                <span class="bold">Rs.{{totalAmountAfterTax}}</span>
+            </div>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-left">
+            <div>E. &O.E.</div>
+            <div>Subject to Una Jurisdiction Only</div>
+            <div>Goods Once Sold Cannot Be Returned</div>
+            <div>18% interest will be charged if the Bill is not paid within 10 days</div>
+        </div>
+        <div class="footer-right">
+            <div class="bold">FOR INDOESSARR ENGINEERS & ASSOCIATES</div>
+        </div>
+    </div>
+
+    <!-- Signatures -->
+    <div style="display: flex; justify-content: space-between; margin-top: 60px;">
+        <div style="text-align: center;">
+            <div style="border-top: 1px solid #000; padding-top: 5px;">Customer Signature</div>
+        </div>
+        <div style="text-align: center;">
+            <div style="border-top: 1px solid #000; padding-top: 5px;">Auth. Signatory</div>
+        </div>
+    </div>
+</body>
+</html>
